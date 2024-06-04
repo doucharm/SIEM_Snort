@@ -15,7 +15,6 @@ RUN apt-get update && \
         zlib1g-dev \
         luajit \
         hwloc \
-        libdnet-dev \
         libdumbnet-dev \
         liblzma-dev \
         openssl \
@@ -83,8 +82,5 @@ COPY ./snort.lua /usr/local/ect/snort/
 COPY ./local.rules /usr/local/etc/rules/ 
 RUN snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules && \
     ldconfig
-# Add an entry point to Snorts
-ENTRYPOINT ["/usr/local/bin/snort"]
-
-# Default command to keep the container running (adjust as needed)
-CMD ["-c", "/usr/local/etc/snort/snort.lua", "-i", "eth1"]
+    #Run Snort on eth0
+RUN snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules -i eth0 -A alert_fast -s 65535 -k none

@@ -92,7 +92,7 @@ classifications = default_classifications
 ips =
 {
     variables = default_variables;
-    rules = [[include /usr/local/etc/rules/snort3-community.rules]]
+    rules = [[include /root/snort3-community-rules/snort3-community.rules]]
 }
 if ( tweaks ~= nil ) then
     include(tweaks .. '.lua')
