@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package list and install the required packages, including Git and wget
 RUN apt-get update && \
-    apt-get install -y \
+    apt install -y \
         build-essential \
         libpcap-dev \
         libpcre3-dev \
@@ -32,6 +32,7 @@ RUN apt-get update && \
         libunwind-dev \
         libfl-dev \
         git \
+        nano \
         wget && \
     # Clean up APT when done to reduce image size
     apt-get clean && \
@@ -78,9 +79,7 @@ RUN cd /root && \
     wget https://www.snort.org/downloads/community/snort3-community-rules.tar.gz && \
     tar -xvzf snort3-community-rules.tar.gz && \
     cp -r snort3-community-rules/* /usr/local/etc/rules/
-COPY ./snort.lua /usr/local/ect/snort/
+COPY ./snort.lua /usr/local/etc/snort/
 COPY ./local.rules /usr/local/etc/rules/ 
-RUN snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules && \
-    ldconfig
     #Run Snort on eth0
 RUN snort -c /usr/local/etc/snort/snort.lua -R /usr/local/etc/rules/local.rules -i eth0 -A alert_fast -s 65535 -k none
